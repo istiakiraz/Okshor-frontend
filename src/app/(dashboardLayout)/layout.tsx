@@ -19,14 +19,21 @@ import { AppSidebar } from "@/components/layout/app-sidebar";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
 
 export default function DashboardLayout({
-  children,
+  admin,
+  user,
 }: {
   children: React.ReactNode;
+  admin: React.ReactNode;
+  user: React.ReactNode;
 }) {
+  const userInfo = {
+    role: "admin",
+  };
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <SidebarProvider>
-        <AppSidebar />
+        <AppSidebar user={userInfo} />
         <SidebarInset>
           <header className="flex h-16 shrink-0 items-center justify-between gap-2 border-b border-border px-4 transition-[width,height] ease-linear">
             <div className="flex items-center gap-2">
@@ -53,7 +60,10 @@ export default function DashboardLayout({
               <ThemeToggle />
             </div>
           </header>
-          <div className="flex flex-1 flex-col gap-4 p-6">{children}</div>
+          <div className="flex flex-1 flex-col gap-4 p-6">
+            {admin}
+            {user}
+          </div>
         </SidebarInset>
       </SidebarProvider>
     </div>
