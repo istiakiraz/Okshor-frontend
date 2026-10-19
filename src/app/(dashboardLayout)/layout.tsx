@@ -14,9 +14,10 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/layout/app-sidebar";
+
 
 import { ThemeToggle } from "@/components/theme/theme-toggle";
+import { AppSidebar } from "@/components/layout/common/app-sidebar";
 
 export default function DashboardLayout({
   admin,

@@ -13,12 +13,13 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { SearchForm } from "./search-form";
+
 import { ThemeToggle } from "@/components/theme/theme-toggle";
 import Link from "next/link";
 import { adminRoutes } from "@/routes/adminRoutes";
 import { userRoutes } from "@/routes/userRoutes";
 import { Route } from "@/types";
+import { SearchForm } from "./search-form";
 
 
 export function AppSidebar({

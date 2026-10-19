@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ThemeToggle } from "../theme/theme-toggle";
+import { ThemeToggle } from "../../theme/theme-toggle";
 import { ArrowRight, Menu, X } from "lucide-react";
 
 interface NavItem {
@@ -31,7 +31,7 @@ export default function Navbar() {
         aria-label="Home"
         className="text-zinc-900 dark:text-zinc-50 font-bold text-xl tracking-tight"
       >
-       Okshor
+        Okshor
       </Link>
 
       {/* Desktop Navigation Links */}
@@ -59,11 +59,20 @@ export default function Navbar() {
 
         {/* Desktop CTA Button */}
         <Link
-          href="/get-started"
-          className="flex items-center gap-2.5 bg-linear-to-r from-zinc-950 to-zinc-600 dark:from-zinc-100 dark:to-zinc-400 text-zinc-50 dark:text-zinc-950 hover:opacity-95 text-sm font-medium pl-5 pr-2 py-2 rounded-full cursor-pointer transition-all border-0"
+          href="/login"
+          className="flex items-center gap-2 text-primary border-primary font-medium border rounded-4xl px-3 py-1.5 text-sm bg-white"
         >
-          Get started
-          <span className="w-7 h-7 rounded-full bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 flex items-center justify-center">
+          Log In
+          <span className="w-7 h-7 rounded-full bg-primary  text-zinc-900 dark:text-zinc-100 flex items-center justify-center">
+            <ArrowRight className="w-3.5 h-3.5" />
+          </span>
+        </Link>
+        <Link
+          href="/sign-up"
+          className="flex items-center gap-2 text-primary border-primary  border font-medium rounded-4xl px-3 py-1.5 text-sm "
+        >
+          Sign Up
+          <span className="w-7 h-7 rounded-full bg-primary  text-zinc-900 dark:text-zinc-100 flex items-center justify-center">
             <ArrowRight className="w-3.5 h-3.5" />
           </span>
         </Link>
@@ -106,7 +115,7 @@ export default function Navbar() {
             onClick={() => setMenuOpen(false)}
             className="flex items-center justify-center gap-2.5 bg-linear-to-r from-zinc-950 to-zinc-600 dark:from-zinc-100 dark:to-zinc-400 text-zinc-50 dark:text-zinc-950 text-sm font-medium px-5 py-2.5 rounded-full cursor-pointer border-0 mt-3 w-full"
           >
-            Get started
+            Log In
             <span className="w-7 h-7 rounded-full bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 flex items-center justify-center">
               <ArrowRight className="w-3.5 h-3.5" />
             </span>
