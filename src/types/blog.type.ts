@@ -1,17 +1,15 @@
-// export interface BlogPost {
-//   id: string;
-//   title: string;
-//   content: string;
-//   thumbnail?: string | null;
-//   tags?: string[] | undefined;
-//   views: number;
-//   _count?: {
-//     comments: number;
-//   };
-//   isFeatured?: boolean;
-// }
+export interface BlogComment {
+  id: string;
+  content: string;
+  authorId: string;
+  postId: string;
+  parentId: string | null;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+  replies?: BlogComment[];
+}
 
-// types/index.ts
 export interface BlogPost {
   id: string;
   title: string;
@@ -19,12 +17,14 @@ export interface BlogPost {
   thumbnail: string | null;
   isFeatured: boolean;
   status: string;
-  tags?: string[]; // Optional kore dilam (?)
+  tags?: string[]; 
   view: number;
   authorId: string;
   createdAt: string;
   updatedAt: string;
-  _count?: {      // Optional kore dilam (?)
+  comments?: BlogComment[];
+  _count?: {
+    
     comments: number;
   };
 }
