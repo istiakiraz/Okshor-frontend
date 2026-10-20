@@ -3,7 +3,15 @@ import { blogService } from "@/services/blog.service";
 import { BlogPost } from "@/types";
 
 export default async function Home() {
-  const { data } = await blogService.getBlogPost();
+  const { data } = await blogService.getBlogPost(
+    {
+      isFeatured: false,
+      search: "",
+    },
+    {
+      cache: "no-store",
+    },
+  );
 
   console.log("data", data);
 
