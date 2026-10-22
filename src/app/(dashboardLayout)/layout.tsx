@@ -1,13 +1,4 @@
 import React from "react";
-
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
 import { Separator } from "@/components/ui/separator";
 import {
   SidebarInset,
@@ -15,11 +6,12 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 
-
 import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { AppSidebar } from "@/components/layout/common/app-sidebar";
+import { userService } from "@/services/user.service";
+import { Roles } from "@/constants/roles";
 
-export default function DashboardLayout({
+export default async function DashboardLayout({
   admin,
   user,
 }: {
@@ -27,9 +19,9 @@ export default function DashboardLayout({
   admin: React.ReactNode;
   user: React.ReactNode;
 }) {
-  const userInfo = {
-    role: "admin",
-  };
+  const { data } = await userService.getSession();
+
+  const userInfo = data.user;
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -43,27 +35,14 @@ export default function DashboardLayout({
                 orientation="vertical"
                 className="mr-2 data-[orientation=vertical]:h-4"
               />
-              <Breadcrumb>
-                <BreadcrumbList>
-                  <BreadcrumbItem className="hidden md:block">
-                    <BreadcrumbLink href="#">
-                      Build Your Application
-                    </BreadcrumbLink>
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator className="hidden md:block" />
-                  <BreadcrumbItem>
-                    <BreadcrumbPage>Data Fetching</BreadcrumbPage>
-                  </BreadcrumbItem>
-                </BreadcrumbList>
-              </Breadcrumb>
+              
             </div>
             <div className="flex items-center gap-2">
               <ThemeToggle />
             </div>
           </header>
           <div className="flex flex-1 flex-col gap-4 p-6">
-            {admin}
-            {user}
+            {userInfo.role === Roles.admin ? admin : user}
           </div>
         </SidebarInset>
       </SidebarProvider>
