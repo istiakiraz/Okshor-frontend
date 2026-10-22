@@ -13,7 +13,7 @@ export default async function Home() {
     },
   );
 
-  console.log("data", data);
+  // console.log("data", data);
 
   return (
     <div className="mt-10 px-10">

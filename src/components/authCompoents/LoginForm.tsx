@@ -1,68 +1,140 @@
 "use client";
+import { useForm } from "@tanstack/react-form";
+import * as z from "zod";
+import { FieldError } from "../ui/field";
 import { authClient } from "@/lib/auth-client";
-import Link from "next/link";
+import { toast } from "sonner";
 
+const formSchema = z.object({
+  email: z.email(),
+  password: z.string().min(8, "This field is required"),
+});
 
 export default function LoginForm() {
+  const form = useForm({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+    validators: {
+      onSubmit: formSchema,
+    },
+    onSubmit: async ({ value }) => {
+      const toastId = toast.loading("Logging user");
+
+      try {
+        const { data, error } = await authClient.signIn.email(value);
+
+        if (error) {
+          toast.error(error.message, { id: toastId });
+          return;
+        }
+
+        toast.success("User Login Successfully", { id: toastId });
+      } catch (error) {
+        console.log(error);
+        toast.error("Something went wrong", { id: toastId });
+      }
+    },
+  });
 
   const handleGoogleLogin = async () => {
     const data = authClient.signIn.social({
       provider: "google",
-      callbackURL: "http://localhost:3000"
-    })
-
-    console.log(data)
-  } 
-
-  const session = authClient.useSession()
-
-  console.log(session)
+      callbackURL: "http://localhost:3000",
+    });
+  };
 
   return (
-    <div className="bg-white text-gray-500 max-w-96 mx-4 md:p-6 p-4 text-left text-sm rounded-xl shadow-[0px_0px_10px_0px] shadow-black/10">
-      <h2 className="text-2xl font-semibold mb-6 text-center text-gray-800">
-        Welcome back
+    <div className="bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 w-lg mx-auto md:p-8 p-6 text-left text-sm rounded-2xl shadow-xl dark:shadow-gray-900/50 border border-gray-100 dark:border-gray-800 transition-colors">
+      <h2 className="text-2xl font-bold mb-6 text-center text-gray-900 dark:text-white">
+        Create Account - Okshor
       </h2>
-      <form>
-        <input
-          id="email"
-          className="w-full bg-transparent border my-3 border-gray-500/30 outline-none rounded-full py-2.5 px-4"
-          type="email"
-          placeholder="Enter your email"
-          required
+
+      <form
+        id="signup-form"
+        onSubmit={(e) => {
+          e.preventDefault();
+          form.handleSubmit();
+        }}
+        className="space-y-4  "
+      >
+        {/* Email Field */}
+        <form.Field
+          name="email"
+          children={(field) => {
+            const isInvalid =
+              field.state.meta.isTouched && !field.state.meta.isValid;
+            return (
+              <div>
+                <label
+                  htmlFor={field.name}
+                  className="block text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-gray-400 mb-1.5"
+                >
+                  Email Address
+                </label>
+                <input
+                  id={field.name}
+                  name={field.name}
+                  value={field.state.value}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  className="w-full bg-transparent border border-gray-300 dark:border-gray-700 outline-none rounded-xl py-2.5 px-4 text-gray-900 dark:text-white focus:border-indigo-500 dark:focus:border-indigo-400 transition-colors"
+                  type="email"
+                  placeholder="Enter your email"
+                  autoComplete="email"
+                />
+                {isInvalid && <FieldError errors={field.state.meta.errors} />}
+              </div>
+            );
+          }}
         />
-        <input
-          id="password"
-          className="w-full bg-transparent border mt-1 border-gray-500/30 outline-none rounded-full py-2.5 px-4"
-          type="password"
-          placeholder="Enter your password"
-          required
+
+        {/* password field */}
+        <form.Field
+          name="password"
+          children={(field) => {
+            const isInvalid =
+              field.state.meta.isTouched && !field.state.meta.isValid;
+            return (
+              <div>
+                <label
+                  htmlFor={field.name}
+                  className="block text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-gray-400 mb-1.5"
+                >
+                  Password
+                </label>
+                <input
+                  id={field.name}
+                  name={field.name}
+                  value={field.state.value}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  className="w-full bg-transparent border border-gray-300 dark:border-gray-700 outline-none rounded-xl py-2.5 px-4 text-gray-900 dark:text-white focus:border-indigo-500 dark:focus:border-indigo-400 transition-colors"
+                  type="password"
+                  placeholder="Enter your password"
+                  autoComplete="current-password"
+                />
+                {isInvalid && <FieldError errors={field.state.meta.errors} />}
+              </div>
+            );
+          }}
         />
-        <div className="text-right py-4">
-          <a className="text-blue-600 underline" href="#">
-            Forgot Password
-          </a>
-        </div>
-        <button
-          type="submit"
-          className="w-full mb-3 bg-indigo-500 py-2.5 rounded-full text-white"
-        >
-          Log in
-        </button>
+
+        {/* Submit Button */}
       </form>
-      <p className="text-center mt-4">
-        Don’t have an account?{" "}
-        <Link href="/sign-up" className="text-blue-500 underline">
-          Signup
-        </Link>
-      </p>
-    
+
+      <button
+        form="signup-form"
+        type="submit"
+        className="w-full mt-4 bg-primary  dark:hover:bg-indigo-600 font-semibold py-3 rounded-xl text-white shadow-md shadow-indigo-500/20 transition-all duration-200 cursor-pointer"
+      >
+        Log In
+      </button>
+
       <button
         type="button"
-        onClick={()=> handleGoogleLogin()}
+        onClick={() => handleGoogleLogin()}
         className="w-full flex items-center gap-2 justify-center my-3 bg-white border border-gray-500/30 py-2.5 rounded-full text-gray-800"
       >
-        
         Log in with Google
       </button>
     </div>

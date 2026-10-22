@@ -4,7 +4,6 @@ import Link from "next/link";
 import { Calendar, Eye, MessageSquare } from "lucide-react";
 
 export default function BlogCard({ post }: { post: BlogPost }) {
-  // Date format korar jonno
   const formattedDate = new Date(post.createdAt).toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",
@@ -23,7 +22,7 @@ export default function BlogCard({ post }: { post: BlogPost }) {
             className="object-cover group-hover:scale-105 transition-transform duration-500"
           />
         ) : (
-          <div className="flex items-center justify-center h-full text-gray-400 dark:text-gray-500 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 text-sm font-medium">
+          <div className="flex items-center justify-center h-full text-gray-400 dark:text-gray-500 bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 text-sm font-medium">
             No Thumbnail
           </div>
         )}
